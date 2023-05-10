@@ -36,15 +36,16 @@ information, retrieving IP data, and creating and reading API keys.
 
 Check Our Site : https://mefiz.com
 
-
 """
 
 
 _framework = [
-"django",
-"flask",
-"fastapi",
-"bottle",
+
+    "django",
+    "flask",
+    "fastapi",
+    "bottle",
+
 ]
 
 
@@ -52,7 +53,7 @@ _framework = [
 # HS256
 # HS512
 # RS256
-# 
+
 
 
 class JWTToken:
@@ -71,7 +72,7 @@ class JWTToken:
         self.algorithm = "HS512"
         
         
-    def create(self,request,data) -> str:
+    def create(self,request,data:list) -> str:
         """
         This function creates a token using the provided data and request.
         
@@ -84,7 +85,7 @@ class JWTToken:
 
 
 
-    def read(self, request, *args,header=None) -> list or dict:
+    def read(self, request, *args:tuple,header=None) -> list or dict:
         """
         This read function using the provided data and request.
         
@@ -134,7 +135,6 @@ class ProcessToken(JWTToken):
     def get_data(self):
         try:
             if self.framework == 'fastapi' or 'flask' or 'bottle':
-                # return ProcessToken.datalist(self,self.request.headers.get('authorization'))
                 return ProcessToken.datalist(self,self.request.headers.get((self.header)))
             elif self.framework == 'django':  
                 return ProcessToken.datalist(self,self.request.headers[(self.header)])
@@ -142,7 +142,6 @@ class ProcessToken(JWTToken):
         except ValueError:
             raise ValueError("authorization header not exist")
 
-    # def expiryInfo(self):
     def token_date(self):
         try:
             if self.framework == 'fastapi' or 'flask' or 'bottle':
@@ -206,7 +205,8 @@ class Json:
             })
         else:
             self.data.update({
-                "expiry_date": str(self.expire_date)[2:]
+                "expiry_date": str(self.expire_date)[2:],
+                "X-CSRFToken":'794723984723984732947294729'
             })
         try:
             return jwt.encode(self.data, self.secret_key, algorithm=self.algorithm)
@@ -239,8 +239,6 @@ class MetaData:
         The MetaData class extracts user agent information from a request and
         provides methods to retrieve device, OS, browser, and other related information.
         """
-        self.framework = framework
-        self.validateframework()
         if framework == 'fastapi' or framework =='flask' or framework =='bottle':
             self.user_agent_string = request.headers.get('User-Agent')
             self.user_agent = parse(self.user_agent_string)
@@ -267,10 +265,9 @@ class MetaData:
     This function returns the browser family of the user agent.
     :return: a string that represents the browser family of the user agent.
     """
-      
+
 
     def deviceIs(self) -> str:return self.user_agent.get_device()
-    
         
     def osIs(self) -> str:return self.user_agent.get_os()
         
@@ -287,13 +284,6 @@ class MetaData:
     def botIs(self) -> bool:return self.user_agent.is_bot
         
     def emailClientIs(self) -> bool: return self.user_agent.is_email_client
-
-    
-    def validateframework(self):
-        if self.framework == None:
-            raise ValueError("framework not define")
-        elif self.framework not in _framework:
-            raise ValueError(f"framework support",_framework)
        
 
 class IPinfo:
@@ -315,7 +305,7 @@ class APIKey:
         self.api_secret_key = api_secret_key
         self.today = datetime.datetime.now()
 
-    def create(self,data) -> str:
+    def create(self,data:list) -> str:
         """
         This function creates an API key using the provided data.
         
@@ -325,7 +315,7 @@ class APIKey:
         self.data = data
         return self._create_apikey()
 
-    def read(self,apikey,*args) -> list or dict:
+    def read(self,apikey:str,*args:tuple) -> list or dict:
         """
         This function read the api key and return the list or dict.
         """
@@ -376,7 +366,6 @@ class APIKey:
 
     def apikey_data(self):
         return self.data_list()
-
 
 
  
