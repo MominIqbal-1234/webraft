@@ -75,6 +75,11 @@ token1 = token.read(request,"username","user_id")
 ![Screenshot (31)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/932c4295-6431-4d96-8e66-06ee14b8ac10)
 
 
+## Authenticated Token
+```
+print(token.is_authenticated()) # return bool
+```
+
 
 ## User Device Info
 
