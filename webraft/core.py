@@ -1,11 +1,8 @@
-import jwt
 import datetime
 from cryptography.fernet import Fernet
 from .ipinfo import IPInfo
-from functools import lru_cache
-from requests import get
-import json
 from user_agents import parse
+import jwt
 try:
     from django.middleware import csrf
     from django_user_agents.utils import get_user_agent
@@ -14,7 +11,7 @@ except:
 
 
 __name__ = "webraft"
-__verion__ = "1.0"
+__verion__ = "0.1"
 
 """
 
@@ -39,7 +36,7 @@ Check Our Site : https://mefiz.com
 """
 
 
-_framework = [
+__framework__ = [
 
     "django",
     "flask",
@@ -49,15 +46,17 @@ _framework = [
 ]
 
 
+__algorithm__ = [
+    "HS256",
+    "HS512",
+    "RS256",
+]
 
-# HS256
-# HS512
-# RS256
 
 
 
 class JWTToken:
-    def __init__(self, secret_key=None,expiry_token=None,framework=None):
+    def __init__(self, secret_key=None,expiry_token=None,framework=None,algorithm=None):
         """
         The JWTToken class that creates and reads JSON Web Tokens
         with a specified secret key, expiry date, and framework.
@@ -65,11 +64,12 @@ class JWTToken:
         """
         self.validateexpirytoken(expiry_token)
         self.validateframework(framework)
+        self.validatealgorithm(algorithm)
         self.secret_key = secret_key
         self.expiry_token = int(expiry_token)
         self.framework=framework
         self.today = datetime.datetime.now()
-        self.algorithm = "HS512"
+        self.algorithm = algorithm
         
         
     def create(self,request,data:list) -> str:
@@ -119,13 +119,18 @@ class JWTToken:
     def validateframework(self,framework):
         if framework == None:
             raise ValueError("framework not define")
-        elif framework not in _framework:
-            raise ValueError(f"framework support",_framework)
+        elif framework not in __framework__:
+            raise ValueError(f"framework support",__framework__)
     def validateexpirytoken(self,expiry_token):
         if expiry_token == None:
             raise ValueError("add token expire date")
         elif expiry_token <= 0:
             raise ValueError("0 expiry_token not valid")
+    def validatealgorithm(self,algorithm):
+        if algorithm == None:
+            raise ValueError("algorithm not define")
+        elif algorithm not in __algorithm__:
+            raise ValueError("algorithm not support")
 
 
 class ProcessToken(JWTToken):
@@ -205,8 +210,7 @@ class Json:
             })
         else:
             self.data.update({
-                "expiry_date": str(self.expire_date)[2:],
-                "X-CSRFToken":'794723984723984732947294729'
+                "expiry_date": str(self.expire_date)[2:]
             })
         try:
             return jwt.encode(self.data, self.secret_key, algorithm=self.algorithm)
@@ -222,13 +226,14 @@ class Json:
 
 
 
-
 class GenerateKey:
     """
-    The GenerateKey class contains a method to generate a Fernet key.
+    The GenerateKey class contains a method to generate key
     """
     def generate_key():
-        return Fernet.generate_key()
+        key = str(Fernet.generate_key())
+        _key = key.replace("'", "")
+        return _key[1:]
 
 
 
