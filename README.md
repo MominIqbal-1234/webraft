@@ -111,6 +111,7 @@ touchCapableIs = MetaData(request,'fastapi').touchCapableIs(),
 
 
 ## IP Info
+The IPinfo class returns user IP data
 ```
 from webraft.core import IPinfo
 print(IPinfo(request).get())
@@ -118,6 +119,7 @@ print(IPinfo(request).get())
 
 
 ## Create API-keys
+The APIKey class provides for creating, reading, retrieving data from API keys.
 ```python
 from webraft.core import APIKey
 
@@ -127,6 +129,7 @@ api_key = APIKey("my_key").create({
 ```
 
 ## Read API-Key
+This function read the api key and return the list or dict.
 ```python
 from webraft.core import APIKey
 
