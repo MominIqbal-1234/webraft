@@ -1,0 +1,116 @@
+# WebRaft
+
+creating and reading JSON Web Tokens, extracting user agent
+information, retrieving IP data, and creating and reading API keys
+
+# install webraft
+```python
+pip install webraft
+```
+
+
+# Support
+WebRaft Support Four Python web-framework 
+```
+1) Django
+2) Flask
+3) FastAPI
+4) Bottle
+```
+# Django Rest-API
+
+## Create Secret Key
+```python
+from webraft.core import GenerateKey
+print(GenerateKey.generate_key())
+```
+
+
+## Support Algorithm
+```
+HS256
+HS512
+HS384
+```
+
+## Create Token
+```python
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from webraft.core import GenerateKey,JWTToken,MetaData,IPinfo,APIKey
+
+token = JWTToken(secret_key='my_key',expiry_token=1,framework='django',algorithm='HS256')
+
+
+@api_view(['GET'])
+def create_jwt_token(request):
+  token1 = token.create(request,{
+        "username":"admin",
+        "user_id":1
+    })
+  return Response({"token1":token1})
+```
+
+## Read Token
+
+```python
+# Return all josn vlaues
+token1 = token.read(request)
+
+# Return specific json 
+token1 = token.read(request,"username","user_id")
+
+```
+
+![Screenshot (29)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/b829f7d0-4197-40ae-a771-3eae7dbd9c38)
+
+
+
+## Add Custome Header
+
+```python
+ token1 = token.read(request,'username','user_id',header="myheader")
+
+```
+![Screenshot (31)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/932c4295-6431-4d96-8e66-06ee14b8ac10)
+
+
+
+## User Device Info
+
+```python
+"os_is" = MetaData(request,'fastapi').os_is(),
+"browser_is" = MetaData(request,'fastapi').browser_is(),
+"deviceIs" = MetaData(request,'fastapi').deviceIs(),
+"mobileIs" = MetaData(request,'fastapi').mobileIs(),
+"tabletIs" = MetaData(request,'fastapi').tabletIs(),
+"touchCapableIs" = MetaData(request,'fastapi').touchCapableIs(),
+
+```
+![Screenshot (33)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/902d85ad-389f-4115-a219-a1cb2a8f2642)
+
+
+
+## Create API-keys
+```python
+api_key = APIKey("12345").create({
+        "trail_key":"True",
+    })
+```
+
+## Read API-Key
+```python
+token1 = APIKey("12345").read("myapikey","trail_key")
+```
+
+<br>
+https://github.com/MominIqbal-1234/webraft
+
+
+
+Check Our Site : https://mefiz.com/about </br>
+Developed by : Momin Iqbal
+
+
+
+
