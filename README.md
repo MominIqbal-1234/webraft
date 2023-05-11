@@ -37,7 +37,7 @@ HS384
 ```python
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from webraft.core import GenerateKey,JWTToken,MetaData,IPinfo,APIKey
+from webraft.core import JWTToken
 
 token = JWTToken(secret_key='my_key',expiry_token=1,framework='django',algorithm='HS256')
 
@@ -79,29 +79,47 @@ token1 = token.read(request,"username","user_id")
 ## User Device Info
 
 ```python
-"os_is" = MetaData(request,'fastapi').os_is(),
-"browser_is" = MetaData(request,'fastapi').browser_is(),
-"deviceIs" = MetaData(request,'fastapi').deviceIs(),
-"mobileIs" = MetaData(request,'fastapi').mobileIs(),
-"tabletIs" = MetaData(request,'fastapi').tabletIs(),
-"touchCapableIs" = MetaData(request,'fastapi').touchCapableIs(),
+
+from webraft.core import MetaData
+
+os_is = MetaData(request,'fastapi').os_is(),
+browser_is = MetaData(request,'fastapi').browser_is(),
+deviceIs = MetaData(request,'fastapi').deviceIs(),
+mobileIs = MetaData(request,'fastapi').mobileIs(),
+tabletIs = MetaData(request,'fastapi').tabletIs(),
+touchCapableIs = MetaData(request,'fastapi').touchCapableIs(),
 
 ```
 ![Screenshot (33)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/902d85ad-389f-4115-a219-a1cb2a8f2642)
 
 
+## IP Info
+```
+from webraft.core import IPinfo
+print(IPinfo(request).get())
+```
+
 
 ## Create API-keys
 ```python
-api_key = APIKey("12345").create({
+from webraft.core import APIKey
+
+api_key = APIKey("my_key").create({
         "trail_key":"True",
     })
 ```
 
 ## Read API-Key
 ```python
-token1 = APIKey("12345").read("myapikey","trail_key")
+from webraft.core import APIKey
+
+token1 = APIKey("my_key").read("myapikey","trail_key")
 ```
+
+
+
+
+
 
 <br>
 https://github.com/MominIqbal-1234/webraft
