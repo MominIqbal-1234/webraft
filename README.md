@@ -34,6 +34,10 @@ HS384
 ```
 
 ## Create Token
+
+This function creates a token using the provided data and request.
+        
+
 ```python
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -53,6 +57,8 @@ def create_jwt_token(request):
 
 ## Read Token
 
+read function pass the request and parameter and return json
+    
 ```python
 # Return all josn vlaues
 token1 = token.read(request)
@@ -76,12 +82,18 @@ token1 = token.read(request,"username","user_id")
 
 
 ## Authenticated Token
+
+This function returns a boolean value indicating whether the user is authenticated or not
+
 ```
 print(token.is_authenticated()) # return bool
 ```
 
 
 ## User Device Info
+
+The MetaData class extracts user agent information from a request and
+provides methods to retrieve device, OS, browser, and other related information
 
 ```python
 
