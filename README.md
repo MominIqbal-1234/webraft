@@ -112,7 +112,7 @@ touchCapableIs = MetaData(request,'fastapi').touchCapableIs(),
 
 ## IP Info
 The IPinfo class returns user IP data
-```
+```python
 from webraft.core import IPinfo
 print(IPinfo(request).get())
 ```
