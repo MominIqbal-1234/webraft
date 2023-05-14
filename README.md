@@ -34,10 +34,14 @@ HS384
 ```
 
 ## Create Token
+
+This function creates a token using the provided data and request.
+        
+
 ```python
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from webraft.core import GenerateKey,JWTToken,MetaData,IPinfo,APIKey
+from webraft.core import JWTToken
 
 token = JWTToken(secret_key='my_key',expiry_token=1,framework='django',algorithm='HS256')
 
@@ -53,6 +57,8 @@ def create_jwt_token(request):
 
 ## Read Token
 
+read function pass the request and parameter and return json
+    
 ```python
 # Return all josn vlaues
 token1 = token.read(request)
@@ -75,33 +81,65 @@ token1 = token.read(request,"username","user_id")
 ![Screenshot (31)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/932c4295-6431-4d96-8e66-06ee14b8ac10)
 
 
+## Authenticated Token
+
+This function returns a boolean value indicating whether the user is authenticated or not
+
+```
+print(token.is_authenticated()) # return bool
+```
+
 
 ## User Device Info
 
+The MetaData class extracts user agent information from a request and
+provides methods to retrieve device, OS, browser, and other related information
+
 ```python
-"os_is" = MetaData(request,'fastapi').os_is(),
-"browser_is" = MetaData(request,'fastapi').browser_is(),
-"deviceIs" = MetaData(request,'fastapi').deviceIs(),
-"mobileIs" = MetaData(request,'fastapi').mobileIs(),
-"tabletIs" = MetaData(request,'fastapi').tabletIs(),
-"touchCapableIs" = MetaData(request,'fastapi').touchCapableIs(),
+
+from webraft.core import MetaData
+
+os_is = MetaData(request,'fastapi').os_is(),
+browser_is = MetaData(request,'fastapi').browser_is(),
+deviceIs = MetaData(request,'fastapi').deviceIs(),
+mobileIs = MetaData(request,'fastapi').mobileIs(),
+tabletIs = MetaData(request,'fastapi').tabletIs(),
+touchCapableIs = MetaData(request,'fastapi').touchCapableIs(),
 
 ```
 ![Screenshot (33)](https://github.com/MominIqbal-1234/jwt_django/assets/61788052/902d85ad-389f-4115-a219-a1cb2a8f2642)
 
 
+## IP Info
+The IPinfo class returns user IP data
+```python
+from webraft.core import IPinfo
+print(IPinfo(request).get())
+```
+
 
 ## Create API-keys
+The APIKey class provides for creating, reading, retrieving data from API keys.
 ```python
-api_key = APIKey("12345").create({
+from webraft.core import APIKey
+
+api_key = APIKey("my_key").create({
         "trail_key":"True",
     })
 ```
 
 ## Read API-Key
+This function read the api key and return the list or dict.
 ```python
-token1 = APIKey("12345").read("myapikey","trail_key")
+from webraft.core import APIKey
+
+token1 = APIKey("my_key").read("myapikey","trail_key")
 ```
+
+
+
+
+
 
 <br>
 https://github.com/MominIqbal-1234/webraft
