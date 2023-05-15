@@ -4,6 +4,7 @@ creating and reading JSON Web Tokens, extracting user agent
 information, retrieving IP data, and creating and reading API keys
 
 # install webraft
+link: https://pypi.org/project/webraft/
 ```python
 pip install webraft
 ```
