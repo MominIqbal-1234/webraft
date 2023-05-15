@@ -38,7 +38,7 @@ HS384
 request is an object that represents an incoming HTTP request <br> webraft take every function request object <br>
 this doc show use to request in different python web framework
 
-```
+```python
 # Django
 def home(request):
   pass
