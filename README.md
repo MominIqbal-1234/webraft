@@ -12,10 +12,10 @@ pip install webraft
 # Support
 WebRaft Support Four Python web-framework 
 ```
-1) Django
-2) Flask
-3) FastAPI
-4) Bottle
+1) Django # django
+2) Flask  # flask
+3) FastAPI # fastapi
+4) Bottle  # bottle
 ```
 # Django Rest-API
 
@@ -31,6 +31,48 @@ print(GenerateKey.generate_key())
 HS256
 HS512
 HS384
+```
+
+
+## request
+request is an object that represents an incoming HTTP request <br> webraft take every function request object <br>
+this doc show use to request in different python web framework
+
+```
+# Django
+def home(request):
+  pass
+
+# FastAPI
+from fastapi import FastAPI, Request
+
+app = FastAPI()
+
+@app.get("/")
+async def read_user(request: Request):
+  pass
+
+# Flask
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET'])
+def home():
+  request = request
+  pass
+
+# Bottle
+from bottle import Bottle, request
+
+app = Bottle()
+
+@app.route('/')
+def home():
+    request = request
+    pass
+
+
 ```
 
 ## Create Token
@@ -116,6 +158,8 @@ The IPinfo class returns user IP data
 from webraft.core import IPinfo
 print(IPinfo(request).get())
 ```
+
+
 
 
 ## Create API-keys
