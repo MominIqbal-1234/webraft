@@ -37,7 +37,7 @@ Check Our Site : https://mefiz.com
 
 
 __framework__ = [
-
+    
     "django",
     "flask",
     "fastapi",
@@ -130,7 +130,7 @@ class JWTToken:
         if algorithm == None:
             raise ValueError("algorithm not define")
         elif algorithm not in __algorithm__:
-            raise ValueError("algorithm not support")
+            raise ValueError("support algorithm",__algorithm__)
 
 
 class ProcessToken(JWTToken):
@@ -346,13 +346,13 @@ class APIKey:
                 "created_date": str(self.today),
             })
         try:
-            return jwt.encode(self.data, self.api_secret_key, algorithm="HS512")
+            return jwt.encode(self.data, self.api_secret_key, algorithm=self.algorithm)
         except Exception as e:
             raise ValueError(e)
 
     def decode(self):
         try:
-            return jwt.decode(self.apikey, self.api_secret_key, algorithms="HS512")
+            return jwt.decode(self.apikey, self.api_secret_key, algorithms=self.algorithm)
         except Exception as e:
             raise ValueError(e)
 
