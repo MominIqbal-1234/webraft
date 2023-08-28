@@ -306,8 +306,9 @@ class APIKey:
     """
     The APIKey class provides for creating, reading, retrieving data from API keys.
     """
-    def __init__(self, api_secret_key=None):
+    def __init__(self, api_secret_key=None,algorithm=None):
         self.api_secret_key = api_secret_key
+        self.algorithm = algorithm
         self.today = datetime.datetime.now()
 
     def create(self,data:list) -> str:
