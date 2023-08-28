@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 
-VERSION = '0.1'
+VERSION = '0.2'
 DESCRIPTION = "WebRaft is a Python library for creating and reading JSON Web Tokens, extracting user agent information, retrieving IP data, and creating and reading API keys."
 
 
