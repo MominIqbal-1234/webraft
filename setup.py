@@ -10,7 +10,7 @@ DESCRIPTION = "WebRaft is a Python library for creating and reading JSON Web Tok
 setup(
     name="webraft",
     version=VERSION,
-    author="Momin Iqbal (Pakistan Dedov)",
+    author="mominiqbal1234",
     author_email="<mominiqbal1214@gmail.com>",
     description=DESCRIPTION,
     long_description="""
