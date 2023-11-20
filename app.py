@@ -21,5 +21,15 @@ def hello_world():
     print(token1)
     return "Hello"
 
+@app.route("/read")
+def read():
+    print(type(request))
+    token1 = token.read(request,[
+        "username",
+        "id"
+            ])
+    print(token1)
+    return "Hello"
+
 if __name__ == "__main__":
 	app.run(debug=True)

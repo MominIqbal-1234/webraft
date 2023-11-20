@@ -13,7 +13,7 @@ from .validate import validateAlgorithm as va
 from .validate import validateExpirytoken as ve
 from .validate import validateFramework as vf
 from . import engine
-from .modify import Modification
+from .process import ProcessToken
 
 
 class JWTToken:
@@ -36,7 +36,35 @@ class JWTToken:
     def create(self,request,data:list) -> str:
         
         self.data = data
+        self.data =  ProcessToken.modify(
+            data=data,
+            request=request,
+            expiry_token=self.expiry_token,
+            )
+        return engine.create(
+            data=self.data,
+            secret_key=self.secret_key,
+            algorithm=self.algorithm
+            )
+
+    def read(self, request, args:list,header=None) -> list or dict:
+        
         self.request = request
-        self.data =  Modification.modify(self.data,self.request,self.expiry_token,self.framework)
-        return engine.create(data,self.secret_key,self.algorithm)
-        # return engine.create(self.request)
+        self.args = args
+        self.header = header
+        if header == None:
+            self.header = 'authorization'
+
+        # if self.is_authenticated() == False:
+        #     return {"invaild-token": "token expire"}
+        try:
+            return ProcessToken.getHeader(self,
+                request=request,
+                framework=self.framework,
+                header=self.header,
+                algorithm=self.algorithm,
+                secret_key = self.secret_key,
+                args=args
+            )
+        except KeyError as e:
+            raise KeyError(f"invalid key {e}")
