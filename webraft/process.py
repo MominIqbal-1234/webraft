@@ -24,7 +24,9 @@ class ProcessToken:
 
     
     def dataList(kwargs):
-        if len(kwargs.get('args')) != 0:
+        if kwargs.get('args') == None:
+            return engine.read(kwargs)
+        elif len(kwargs.get('args')) != 0:
             values = engine.read(kwargs).get('data')
             return [values.get(i) for i in kwargs.get('args')]
         else:

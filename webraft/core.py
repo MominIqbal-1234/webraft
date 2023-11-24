@@ -1,6 +1,6 @@
 import datetime
 from cryptography.fernet import Fernet
-from .ipinfo import IPInfo
+from .ipinfo import UserIPData,publicip
 from user_agents import parse
 import jwt
 try:
@@ -14,6 +14,7 @@ from .validate import validateExpirytoken as ve
 from .validate import validateFramework as vf
 from . import engine
 from .process import ProcessToken
+from .generator import GenerateKey
 
 
 class JWTToken:
@@ -47,7 +48,7 @@ class JWTToken:
             algorithm=self.algorithm
             )
 
-    def read(self, request, args:list,header=None) -> list or dict:
+    def read(self, request, args:list=None,header=None) -> list or dict:
         
         self.request = request
         self.args = args
@@ -68,3 +69,17 @@ class JWTToken:
             )
         except KeyError as e:
             raise KeyError(f"invalid key {e}")
+
+
+
+
+def generator():
+    return GenerateKey.generate_key()
+
+
+
+
+def PublicIP():
+    return publicip()
+def userIpinfo(request):
+    return UserIPData(request)

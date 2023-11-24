@@ -1,6 +1,6 @@
 from flask import Flask,request
-from webraft.core import JWTToken
-
+from webraft.core import JWTToken,generator
+from flask import jsonify
 
 app = Flask(__name__)
 token = JWTToken(
@@ -18,18 +18,14 @@ def hello_world():
         "username":"admin",
         "user_id":1
     })
-    print(token1)
-    return "Hello"
+    return jsonify(token1)
 
 @app.route("/read")
 def read():
     print(type(request))
-    token1 = token.read(request,[
-        "username",
-        "id"
-            ])
-    print(token1)
-    return "Hello"
+    token1 = token.read(request)
+    print(generator())
+    return jsonify(token1)
 
 if __name__ == "__main__":
 	app.run(debug=True)
