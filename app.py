@@ -1,5 +1,5 @@
 from flask import Flask,request
-from webraft.core import JWTToken,generator
+from webraft.core import JWTToken,generator,MetaData
 from flask import jsonify
 
 app = Flask(__name__)
@@ -26,6 +26,13 @@ def read():
     token1 = token.read(request)
     print(generator())
     return jsonify(token1)
+
+@app.route("/meta")
+def meta():
+    device_is = MetaData(request,'flask').device_is
+    browser_is = MetaData(request,'flask').browser_is
+    print(device_is)
+    return jsonify(device_is,browser_is)
 
 if __name__ == "__main__":
 	app.run(debug=True)
