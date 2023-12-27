@@ -36,8 +36,8 @@ class JWTToken:
         
         
     def create(self,request,data:list) -> str:
-        
-        self.data = data
+        print(data,"data")
+        # self.data = data
         self.data =  ProcessToken.modify(
             data=data,
             request=request,
@@ -153,3 +153,37 @@ class MetaData:
     # def botIs(self) -> bool:return self.user_agent.is_bot
         
     # def emailClientIs(self) -> bool: return self.user_agent.is_email_client
+
+
+
+class APIKey:
+    """
+    The APIKey class provides for creating, reading, retrieving data from API keys.
+    """
+    def __init__(self, api_secret_key=None,algorithm=None):
+        self.api_secret_key = api_secret_key
+        self.algorithm = algorithm
+        self.today = datetime.datetime.now()
+
+    def create(self,data:list) -> str:
+        """
+        This function creates an API key using the provided data.
+        
+        :param data: The data parameter is the input data that will be used to create an API key. It could
+        be any relevant information such as application details, or any other required information.
+        """
+        self.data = data
+        return engine.create(
+            data=self.data,
+            secret_key=self.secret_key,
+            algorithm=self.algorithm
+            )
+
+    def read(self,apikey:str,*args:tuple) -> list or dict:
+        """
+        This function read the api key and return the list or dict.
+        """
+        self.apikey = apikey
+        self.args = args
+        print(self.args)
+        # return engine.read()
