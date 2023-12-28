@@ -5,7 +5,7 @@ from flask import jsonify
 app = Flask(__name__)
 token = JWTToken(
       secret_key='my_key',
-      expiry_token=60,
+      expiry_token=120,
       framework='flask',
       algorithm='HS256'
       )
@@ -24,7 +24,9 @@ def hello_world():
 @app.route("/read")
 def read():
     print(type(request))
-    token1 = token.read(request)
+    # token1 = token.read(request)
+    token1 = token.CheckExpiry(token.getToken(request,'authorization'))
+    # token1 = token.getToken(request,'authorization')
     # print(generator())
     return jsonify(token1)
 

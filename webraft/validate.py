@@ -1,3 +1,5 @@
+from datetime import datetime
+
 __algorithm__ = [
     "HS256",
     "HS512",
@@ -39,3 +41,20 @@ def validateExpiryDate(data):
         return True
     if value[0] == "expiry_time":
         raise ValueError("expiry_date already exist")
+
+
+def check_token_expiry(time:str):
+    given_time_str = time
+
+    given_time = datetime.strptime(given_time_str, "%H:%M:%S").time()
+    today = datetime.now().date()
+    given_datetime = datetime.combine(today, given_time)
+
+    current_datetime = datetime.now()
+
+    if current_datetime > given_datetime:
+        return False
+    elif current_datetime < given_datetime:
+        return True
+    else:
+        return True

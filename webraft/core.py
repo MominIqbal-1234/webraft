@@ -12,6 +12,9 @@ except:
 from .validate import validateAlgorithm as va
 from .validate import validateExpirytoken as ve
 from .validate import validateFramework as vf
+from .validate import check_token_expiry as cte
+
+
 from . import engine
 from .process import ProcessToken
 from .generator import GenerateKey
@@ -70,6 +73,22 @@ class JWTToken:
             )
         except KeyError as e:
             raise KeyError(f"invalid key {e}")
+
+    def CheckExpiry(self, token:str):
+        expiryTime = (engine.read({
+            "token":token,
+            "secret_key":self.secret_key,
+            "algorithm":self.algorithm
+        })['data']['expiry_time'])
+        return cte(expiryTime)
+
+    def getToken(self,request,header):
+        if self.framework == 'fastapi' or 'flask' or 'bottle':
+            return (request.headers[header])
+
+        elif self.framework == 'django':  
+            return (request.headers[header])
+
 
 
     

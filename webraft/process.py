@@ -8,11 +8,10 @@ from . import engine
 
 class ProcessToken:
     def modify(**args):
-        
         data = args.get('data')
         now = datetime.datetime.now()
         # expire_date = today + datetime.timedelta(days=args.get("expiry_token"))
-        expire_time = now + datetime.timedelta(seconds=120)
+        expire_time = now + datetime.timedelta(seconds=args.get("expiry_token"))
         expire_time = expire_time.strftime("%H:%M:%S")
         if args.get("framework") == 'django':
             data.update({
