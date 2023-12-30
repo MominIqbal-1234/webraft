@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 
 
-VERSION = '0.4'
+VERSION = '0.5'
 DESCRIPTION = "WebRaft is a Python library for creating and reading JSON Web Tokens, extracting user agent information, retrieving IP data, and creating and reading API keys."
 
 
@@ -38,7 +38,7 @@ setup(
     """,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    install_requires=["django","djangorestframework","PyJWT","fastapi","flask","bottle",'cryptography',"user-agents"],
+    install_requires=["django","djangorestframework","PyJWT","fastapi","flask","bottle",'cryptography',"user-agents","django-user-agents"],
     keywords=['webraft','WebRaft''python', 'django', 'jwt', 'jwt for django','create api key','read api key','create token','read token','user agent django','ip info python','user agent python','jwt flask','jwt bottle','jwt fastapi'],
     classifiers=[
         "Development Status :: 1 - Planning",

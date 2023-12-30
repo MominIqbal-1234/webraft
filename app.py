@@ -24,10 +24,17 @@ def hello_world():
 @app.route("/read")
 def read():
     print(type(request))
-    # token1 = token.read(request)
-    token1 = token.CheckExpiry(token.getToken(request,'authorization'))
-    # token1 = token.getToken(request,'authorization')
-    # print(generator())
+    token1 = token.read(request)
+    return jsonify(token1)
+
+@app.route("/gettoken")
+def gettoken():
+    token1 = token.getToken(request,'authorization')
+    return jsonify(token1)
+
+@app.route("/checkexpiry")
+def checkexpiry():
+    token1 = token.checkExpiry(token.getToken(request,'authorization'))
     return jsonify(token1)
 
 @app.route("/meta")
@@ -36,6 +43,13 @@ def meta():
     browser_is = MetaData(request,'flask').browser_is
     print(device_is)
     return jsonify(device_is,browser_is)
+
+@app.route("/apikey")
+def apikey():
+    key = APIKey(api_secret_key='my_key',algorithm='HS256')
+    token1 = key.create({"username":"momin","userid":1})
+    readToken =key.read(token1)
+    return jsonify(token1,readToken)
 
 if __name__ == "__main__":
 	app.run(debug=True)

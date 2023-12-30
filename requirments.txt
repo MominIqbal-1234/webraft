@@ -1,3 +1,9 @@
-django-user-agents
+django
+djangorestframework
+PyJWT
+fastapi
+flask
+bottle
 cryptography
-pyjwt
+user-agents
+django-user-agents

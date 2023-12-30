@@ -4,10 +4,8 @@ import jwt
 
 def create(**args):
     try:
-        return {
-            "status":200,
-            "token":jwt.encode(args.get('data'),args.get('secret_key'), algorithm=args.get('algorithm'))
-            }
+        return jwt.encode(args.get('data'),args.get('secret_key'), algorithm=args.get('algorithm'))
+            
 
     except Exception as e:
         raise ValueError({
@@ -16,12 +14,9 @@ def create(**args):
         })
         
 def read(kwargs):
+    print(read)
     try:
-        
-        return {
-            "status":200,
-            "data":jwt.decode(kwargs.get("token"), kwargs.get("secret_key"), algorithms=kwargs.get("algorithm"))
-        }
+        return jwt.decode(kwargs.get("token"), kwargs.get("secret_key"), algorithms=kwargs.get("algorithm"))
     except Exception as e:
         raise ValueError({
             "status":404,

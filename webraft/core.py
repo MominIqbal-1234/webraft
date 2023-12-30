@@ -20,6 +20,37 @@ from .process import ProcessToken
 from .generator import GenerateKey
 
 
+
+
+
+__name__ = "webraft"
+__verion__ = "0.5"
+
+"""
+
+
+This project developed by Momin Iqbal
+Support : mefiz.com
+================================================================================================================
+
+WebRaft Support Four Python web-framework 
+1) Django
+2) Flask
+3) FastAPI
+4) Bottle
+
+Feuture:
+The code defines several classes for creating and reading JSON Web Tokens, extracting user agent
+information, retrieving IP data, and creating and reading API keys.
+----------------------------------------------------------------------------------------------------------------
+
+Check Our Site : https://mefiz.com
+
+"""
+
+
+
+
 class JWTToken:
     def __init__(self, secret_key=None,expiry_token=None,framework=None,algorithm=None):
         """
@@ -39,8 +70,12 @@ class JWTToken:
         
         
     def create(self,request,data:list) -> str:
-        print(data,"data")
-        # self.data = data
+        """
+        This function creates a token using the provided data and request.
+        
+        :param request: The request object
+        :param data: The `data` parameter is a variable
+        """
         self.data =  ProcessToken.modify(
             data=data,
             request=request,
@@ -53,15 +88,21 @@ class JWTToken:
             )
 
     def read(self, request, args:list=None,header=None) -> list or dict:
+        """
+        This read function using the provided data and request.
         
+        :param request: The HTTP request object
+        :param header: The header parameter is an optional argument that specifies the name of the
+        header that contains the authentication token. If this parameter is not provided, the default
+        header name 'authorization' will be used
+        :return: a list or a dictionary.
+        """
         self.request = request
         self.args = args
         self.header = header
         if header == None:
             self.header = 'authorization'
 
-        # if self.is_authenticated() == False:
-        #     return {"invaild-token": "token expire"}
         try:
             return ProcessToken.getHeader(self,
                 request=request,
@@ -74,15 +115,22 @@ class JWTToken:
         except KeyError as e:
             raise KeyError(f"invalid key {e}")
 
-    def CheckExpiry(self, token:str):
+    def checkExpiry(self, token:str):
+        """
+        return : bool
+        """
         expiryTime = (engine.read({
             "token":token,
             "secret_key":self.secret_key,
             "algorithm":self.algorithm
-        })['data']['expiry_time'])
+        })['expiry_time'])
         return cte(expiryTime)
 
     def getToken(self,request,header):
+        """
+        get token in request header
+        return : bool
+        """
         if self.framework == 'fastapi' or 'flask' or 'bottle':
             return (request.headers[header])
 
@@ -94,15 +142,25 @@ class JWTToken:
     
 
 def generator():
+    """
+    Generate Random keys
+    """
+    
     return GenerateKey.generate_key()
 
 
 
 
 def PublicIP():
+    """
+    Get Piblic IP
+    """
     return publicip()
 
 def userIpinfo(request):
+    """
+    Get IP Data
+    """
     return UserIPData(request)
 
 
@@ -134,45 +192,6 @@ class MetaData:
         self.botIs = self.user_agent.is_bot
         self.emailClientIs = self.user_agent.is_email_client
 
-    # def device_is(self) -> str: return self.user_agent.device.family
-    """
-    This function returns the device family of a user agent.
-    :return: The function `device_is` is returning user device
-    user agent.
-    """
-        
-    # def os_is(self) -> str:return self.user_agent.os.family
-    """
-    This function returns the operating system family of the user agent.
-    :return: user operating system
-    """
-        
-        
-    # def browser_is(self) -> str:return self.user_agent.browser.family
-    """
-    This function returns the browser family of the user agent.
-    :return: a string that represents the browser family of the user agent.
-    """
-
-
-    # def deviceIs(self) -> str:return self.user_agent.get_device()
-        
-    # def osIs(self) -> str:return self.user_agent.get_os()
-        
-    # def browserIs(self) -> str:return self.user_agent.get_browser()
-       
-    # def mobileIs(self) -> bool:return self.user_agent.is_mobile
-        
-    # def tabletIs(self) -> bool:return self.user_agent.is_tablet
-      
-    # def touchCapableIs(self) -> bool:return self.user_agent.is_touch_capable
-        
-    # def pcIs(self) -> bool:return self.user_agent.is_pc
-        
-    # def botIs(self) -> bool:return self.user_agent.is_bot
-        
-    # def emailClientIs(self) -> bool: return self.user_agent.is_email_client
-
 
 
 class APIKey:
@@ -182,9 +201,8 @@ class APIKey:
     def __init__(self, api_secret_key=None,algorithm=None):
         self.api_secret_key = api_secret_key
         self.algorithm = algorithm
-        self.today = datetime.datetime.now()
 
-    def create(self,data:list) -> str:
+    def create(self,data:dict) -> str:
         """
         This function creates an API key using the provided data.
         
@@ -194,15 +212,17 @@ class APIKey:
         self.data = data
         return engine.create(
             data=self.data,
-            secret_key=self.secret_key,
+            secret_key=self.api_secret_key,
             algorithm=self.algorithm
             )
 
-    def read(self,apikey:str,*args:tuple) -> list or dict:
+    def read(self,token=None) -> str:
         """
         This function read the api key and return the list or dict.
+        
         """
-        self.apikey = apikey
-        self.args = args
-        print(self.args)
-        # return engine.read()
+        # return token
+        return engine.read({"token":token,
+            "secret_key":self.api_secret_key,
+            "algorithm":self.algorithm
+        })
