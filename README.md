@@ -1,3 +1,6 @@
+### Downloads webraft
+[![Downloads](https://static.pepy.tech/badge/webraft)](https://pepy.tech/project/webraft)
+
 # WebRaft
 
 WebRaft for python web developers to creating and reading JSON Web Tokens, extracting user agent information (like os,device,browser), retrieving IP data, and creating and reading API keys.
