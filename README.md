@@ -185,6 +185,3 @@ Check Our Site : https://mefiz.com/about
 
 Developed by : Momin Iqbal
 
-
-Check Our Site : https://mefiz.com/about </br>
-Developed by : Momin Iqbal
