@@ -170,7 +170,7 @@ The APIKey class provides for creating, reading, retrieving data from API keys.
 
 ```python
 
-key = APIKey(api_secret_key='my_key',algorithm='HS256')
+key = APIKey(api_secret_key='my_key', expiry_token=120,algorithm='HS256')
     token1 = key.create({"username":"momin","userid":1})
     readToken =key.read(token1)
 ```
