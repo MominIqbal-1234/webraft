@@ -198,9 +198,10 @@ class APIKey:
     """
     The APIKey class provides for creating, reading, retrieving data from API keys.
     """
-    def __init__(self, api_secret_key=None,algorithm=None):
+    def __init__(self, api_secret_key=None,expiry_token=None,algorithm=None):
         self.api_secret_key = api_secret_key
         self.algorithm = algorithm
+        self.expiry_token = int(expiry_token)
 
     def create(self,data:dict) -> str:
         """
@@ -209,7 +210,12 @@ class APIKey:
         :param data: The data parameter is the input data that will be used to create an API key. It could
         be any relevant information such as application details, or any other required information.
         """
-        self.data = data
+        
+        self.data = self.modify(
+            data=data,
+            expiry_token=self.expiry_token,
+        )
+        
         return engine.create(
             data=self.data,
             secret_key=self.api_secret_key,
@@ -221,8 +227,30 @@ class APIKey:
         This function read the api key and return the list or dict.
         
         """
-        # return token
-        return engine.read({"token":token,
+    
+
+        data = engine.read({"token":token,
             "secret_key":self.api_secret_key,
             "algorithm":self.algorithm
         })
+        if cte(data['expiry_time']) != True:
+               return {
+                   "error":401,
+                   "message":"token expire"
+                     }
+        else:
+            return data
+        
+
+
+    def modify(self,**args):
+        data = args.get('data')
+        now = datetime.datetime.now()
+        # expire_date = today + datetime.timedelta(days=args.get("expiry_token"))
+        expire_time = now + datetime.timedelta(seconds=args.get("expiry_token"))
+        expire_time = expire_time.strftime("%H:%M:%S")
+        
+        data.update({
+            "expiry_time": str(expire_time)
+        })
+        return data

@@ -14,7 +14,6 @@ def create(**args):
         })
         
 def read(kwargs):
-    print(read)
     try:
         return jwt.decode(kwargs.get("token"), kwargs.get("secret_key"), algorithms=kwargs.get("algorithm"))
     except Exception as e:
