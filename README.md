@@ -13,7 +13,7 @@ information, retrieving IP data, and creating and reading API keys
 link: https://pypi.org/project/webraft/
 
 ```python
-pip install webraft
+pip install webraft --upgrade
 ```
 
 # Support
